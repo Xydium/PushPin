@@ -14,6 +14,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var pinmanagerTableView: UITableView!
 	@IBOutlet weak var pinmanagerSearchBar: UISearchBar!
 	@IBOutlet var drawingTools: [UIBarButtonItem]!
+	@IBOutlet weak var drawingView: UIView!
 	
 	let fileManager = FileManager()
 	var fileManagerController: FileManagerController!
@@ -28,6 +29,8 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		filemanagerTableView.dataSource = fileManagerController
 		filemanagerTableView.delegate = fileManagerController
 		pinmanagerSearchBar.delegate = self
+		drawingView.layer.borderWidth = 1
+		drawingView.layer.borderColor = defaultTextColor.CGColor
 		runTests()
 	}
 
