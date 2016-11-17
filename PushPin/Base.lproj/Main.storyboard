@@ -39,30 +39,41 @@
                                     <constraint firstAttribute="height" constant="44" id="62b-DW-ZZk"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="q2E-fx-q3v"/>
                                     <barButtonItem title="Pen" id="GhY-zG-kaq">
-                                        <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.55686274509803924" green="0.52156862745098043" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeDrawTool:" destination="BYZ-38-t0r" id="4Z1-zo-u8t"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="oVg-EY-IKN"/>
                                     <barButtonItem title="Eraser" id="5RC-gJ-Npl">
                                         <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeDrawTool:" destination="BYZ-38-t0r" id="euB-WD-QHy"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="MuG-4b-8in"/>
                                     <barButtonItem title="Textbox" id="2xG-B1-RhL">
                                         <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeDrawTool:" destination="BYZ-38-t0r" id="gE8-5q-RH2"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="RTG-eT-mTT"/>
                                     <barButtonItem title="Scissors" id="yJw-Cr-t3u">
                                         <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changeDrawTool:" destination="BYZ-38-t0r" id="ngw-Jc-dcT"/>
+                                        </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="kuO-yz-EKe"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="nD9-B4-yOb"/>
                                     <barButtonItem title="Add Pin" id="hlR-kg-i2N">
                                         <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="addPin:" destination="BYZ-38-t0r" id="T3b-u5-SLy"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="nD9-B4-yOb"/>
+                                    <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="kuO-yz-EKe"/>
                                 </items>
                                 <color key="barTintColor" white="0.25142780172413792" alpha="0.0" colorSpace="calibratedWhite"/>
                             </toolbar>
@@ -186,6 +197,10 @@
                         <outlet property="filemanagerTableView" destination="uwv-wE-bcQ" id="4vP-Xr-6Ha"/>
                         <outlet property="pinmanagerSearchBar" destination="khC-77-yPF" id="aJv-vJ-MlC"/>
                         <outlet property="pinmanagerTableView" destination="qdU-3g-2If" id="ezI-xl-0KN"/>
+                        <outletCollection property="drawingTools" destination="GhY-zG-kaq" collectionClass="NSMutableArray" id="XF0-Om-DDH"/>
+                        <outletCollection property="drawingTools" destination="5RC-gJ-Npl" collectionClass="NSMutableArray" id="Lbr-9Y-bYA"/>
+                        <outletCollection property="drawingTools" destination="2xG-B1-RhL" collectionClass="NSMutableArray" id="Uz6-4G-zBh"/>
+                        <outletCollection property="drawingTools" destination="yJw-Cr-t3u" collectionClass="NSMutableArray" id="28W-EW-W20"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -13,6 +13,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 	@IBOutlet weak var filemanagerTableView: UITableView!
     @IBOutlet weak var pinmanagerTableView: UITableView!
 	@IBOutlet weak var pinmanagerSearchBar: UISearchBar!
+	@IBOutlet var drawingTools: [UIBarButtonItem]!
 	
 	let fileManager = FileManager()
 	var fileManagerController: FileManagerController!
@@ -98,6 +99,27 @@ class ViewController: UIViewController, UISearchBarDelegate {
 			}
 		}
 		filemanagerTableView.reloadData()
+	}
+	
+	let defaultTextColor = UIColor(red:0x8E/0xFF, green:0x85/0xFF, blue:1.0, alpha: 1.0)
+	let selectedTextColor = UIColor(red:0x4E/0xFF, green:0xA0/0xFF, blue:0.95, alpha: 1.0)
+	@IBAction func changeDrawTool(sender: UIBarButtonItem) {
+		for b in drawingTools {
+			b.tintColor = defaultTextColor
+		}
+		sender.tintColor = selectedTextColor
+		switch sender.title! {
+			case "Pen":
+				break;
+			case "Eraser":
+				break;
+			case "Textbox":
+				break;
+			case "Scissors":
+				break;
+			default:
+				break;
+		}
 	}
 	
 }
