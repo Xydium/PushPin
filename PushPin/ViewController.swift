@@ -6,6 +6,7 @@
 //  Copyright © 2016 Xydium. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class ViewController: UIViewController, UISearchBarDelegate {
@@ -14,23 +15,27 @@ class ViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var pinmanagerTableView: UITableView!
 	@IBOutlet weak var pinmanagerSearchBar: UISearchBar!
 	@IBOutlet var drawingTools: [UIBarButtonItem]!
-	@IBOutlet weak var drawingView: UIView!
+	@IBOutlet weak var drawingView: DrawingView!
 	
 	let fileManager = FileManager()
 	var fileManagerController: FileManagerController!
 	var pinManagerController: PinManagerController!
 	var currentFile: PushpinFile!
+	var currentDrawTool = DrawTools.PEN
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
 		fileManagerController = FileManagerController(self)
 		pinManagerController = PinManagerController(self)
 		pinmanagerTableView.dataSource = pinManagerController
+		pinmanagerTableView.delegate = pinManagerController
 		filemanagerTableView.dataSource = fileManagerController
 		filemanagerTableView.delegate = fileManagerController
 		pinmanagerSearchBar.delegate = self
 		drawingView.layer.borderWidth = 1
 		drawingView.layer.borderColor = defaultTextColor.CGColor
+		drawingView.setMaster(controller: self)
+		changeDrawTool(drawingTools[currentDrawTool.rawValue])
 		runTests()
 	}
 
@@ -111,18 +116,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 			b.tintColor = defaultTextColor
 		}
 		sender.tintColor = selectedTextColor
-		switch sender.title! {
-			case "Pen":
-				break;
-			case "Eraser":
-				break;
-			case "Textbox":
-				break;
-			case "Scissors":
-				break;
-			default:
-				break;
-		}
+		currentDrawTool = DrawTools.forName(sender.title!)
 	}
 	
 }

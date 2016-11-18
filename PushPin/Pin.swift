@@ -6,8 +6,6 @@
 //  Copyright © 2016 Xydium. All rights reserved.
 //
 
-import Foundation
-
 class Pin {
     
     let name: String

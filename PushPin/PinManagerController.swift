@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PinManagerController: NSObject, UITableViewDataSource {
+class PinManagerController: NSObject, UITableViewDataSource, UITableViewDelegate {
 	
 	let master: ViewController
 	var pinManager: PinManager { return master.currentFile.pinManager }
@@ -41,8 +41,8 @@ class PinManagerController: NSObject, UITableViewDataSource {
 		master.pinmanagerTableView.reloadData()
 	}
 	
-	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
-		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in})
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?  {
+		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in self.tableView(tableView, commitEditingStyle: .Delete, forRowAtIndexPath: indexPath)})
 		delete.backgroundColor = UIColor(red: 0x8E / 0xFF, green: 0x85 / 0xFF, blue: 1, alpha: 1)
 		
 		return [delete]
