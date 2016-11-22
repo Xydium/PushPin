@@ -24,44 +24,50 @@ class DrawingView: UIImageView {
 	}
 	
 	override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+		if master.currentFile == nil {
+			return
+		}
 		if let touch = touches.first {
 			let end = touch.locationInView(self)
 			if let start = self.start {
 				switch master.currentDrawTool {
 					case .PEN:
-						drawFromPoint(start, toPoint: end, color: UIColor.blackColor(), size: 5)
+						master.currentFile.addDrawnLine(start, end)
 						break
 					case .ERASER:
-						drawFromPoint(start, toPoint: end, color: self.backgroundColor!, size: 30)
+						master.currentFile.removeIntersectingLines(start, end)
 						break
 					case .SCISSORS:
 						break
 					case .TEXTBOX:
 						break
 				}
+				redraw()
 			}
 			self.start = end
 		}
 	}
 	
-	func drawFromPoint(start: CGPoint, toPoint end: CGPoint, color: UIColor, size: Int) {
-		// set the context to that of an image
+	func redraw() {
+		if master.currentFile == nil {
+			return
+		}
+		
 		UIGraphicsBeginImageContext(self.frame.size)
 		let context = UIGraphicsGetCurrentContext()
-		// draw the existing image onto the current context
-		image?.drawInRect(CGRect(x: 0, y: 0,
-			width: (image?.size.width)!, height: (image?.size.height)!))
-		// draw the new line segment
-		CGContextSetLineWidth(context, CGFloat(size))
-		CGContextSetStrokeColorWithColor(context, color.CGColor)
-		CGContextBeginPath(context)
-		CGContextMoveToPoint(context, start.x, start.y)
-		CGContextAddLineToPoint(context, end.x, end.y)
-		CGContextStrokePath(context)
-		// obtain a UIImage object from the context
+		
+		CGContextSetLineWidth(context, CGFloat(5))
+		CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+		
+		for line in master.currentFile.drawnLines {
+			CGContextBeginPath(context)
+			CGContextMoveToPoint(context, line.start.x, line.start.y)
+			CGContextAddLineToPoint(context, line.end.x, line.end.y)
+			CGContextStrokePath(context)
+		}
+		
 		let newImage = UIGraphicsGetImageFromCurrentImageContext()
 		UIGraphicsEndImageContext()
-		// set the UIImageView's image to the new, generated image
 		image = newImage
 	}
 	
