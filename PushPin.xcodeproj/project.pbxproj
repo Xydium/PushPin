@@ -17,6 +17,7 @@
 		EB902FAB1DBFD34A00104D36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB902FAA1DBFD34A00104D36 /* Assets.xcassets */; };
 		EB902FAE1DBFD34A00104D36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB902FAC1DBFD34A00104D36 /* LaunchScreen.storyboard */; };
 		EBA38DEE1DDF75F70089F1A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA38DED1DDF75F70089F1A5 /* DrawingView.swift */; };
+		EBD1442B1DEC8D2F000390EC /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD1442A1DEC8D2F000390EC /* Vector.swift */; };
 		EBD91E571DC3CC2B0082B48D /* PinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD91E561DC3CC2B0082B48D /* PinManager.swift */; };
 		EBD91E591DC3CC6C0082B48D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD91E581DC3CC6C0082B48D /* Pin.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,7 @@
 		EB902FAD1DBFD34A00104D36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EB902FAF1DBFD34A00104D36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EBA38DED1DDF75F70089F1A5 /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		EBD1442A1DEC8D2F000390EC /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		EBD91E561DC3CC2B0082B48D /* PinManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinManager.swift; sourceTree = "<group>"; };
 		EBD91E581DC3CC6C0082B48D /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 				EB1111281DD5078B00243E5A /* FileManagerController.swift */,
 				EB11112A1DD507BE00243E5A /* PinManagerController.swift */,
 				EBA38DED1DDF75F70089F1A5 /* DrawingView.swift */,
+				EBD1442A1DEC8D2F000390EC /* Vector.swift */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 			files = (
 				EB902FA61DBFD34A00104D36 /* ViewController.swift in Sources */,
 				EBA38DEE1DDF75F70089F1A5 /* DrawingView.swift in Sources */,
+				EBD1442B1DEC8D2F000390EC /* Vector.swift in Sources */,
 				EB1111291DD5078B00243E5A /* FileManagerController.swift in Sources */,
 				EB902FA41DBFD34A00104D36 /* AppDelegate.swift in Sources */,
 				EB11112B1DD507BE00243E5A /* PinManagerController.swift in Sources */,

@@ -11,6 +11,7 @@ import UIKit
 class DrawingView: UIImageView {
 	
 	var start: CGPoint?
+	var end: CGPoint?
 	var master: ViewController!
 	
 	func setMaster(controller master: ViewController) {
@@ -23,26 +24,41 @@ class DrawingView: UIImageView {
 		}
 	}
 	
+	override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+		if master.currentFile == nil {
+			return
+		}
+		if let touch = touches.first {
+			if master.currentDrawTool == DrawTools.SCISSORS {
+				master.currentFile.removeInZone(start!, touch.locationInView(self))
+				print("ran")
+				redraw()
+			}
+		}
+	}
+	
 	override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
 		if master.currentFile == nil {
 			return
 		}
 		if let touch = touches.first {
-			let end = touch.locationInView(self)
+			end = touch.locationInView(self)
+			if Vector(start!, end!).mag < 10 {return}
 			if let start = self.start {
 				switch master.currentDrawTool {
 					case .PEN:
-						master.currentFile.addDrawnLine(start, end)
+						master.currentFile.addDrawnLine(start, end!)
+						redraw()
 						break
 					case .ERASER:
-						master.currentFile.removeIntersectingLines(start, end)
+						master.currentFile.removeIntersectingLines(end!)
+						redraw()
 						break
 					case .SCISSORS:
 						break
 					case .TEXTBOX:
 						break
 				}
-				redraw()
 			}
 			self.start = end
 		}
@@ -61,8 +77,8 @@ class DrawingView: UIImageView {
 		
 		for line in master.currentFile.drawnLines {
 			CGContextBeginPath(context)
-			CGContextMoveToPoint(context, line.start.x, line.start.y)
-			CGContextAddLineToPoint(context, line.end.x, line.end.y)
+			CGContextMoveToPoint(context, CGFloat(line.x1), CGFloat(line.y1))
+			CGContextAddLineToPoint(context, CGFloat(line.x2), CGFloat(line.y2))
 			CGContextStrokePath(context)
 		}
 		

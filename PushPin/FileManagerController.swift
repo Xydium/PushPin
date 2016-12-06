@@ -15,6 +15,7 @@ class FileManagerController: NSObject, UITableViewDataSource, UITableViewDelegat
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		master.currentFile = master.fileManager.pushpinFiles[indexPath.row]
+		master.drawingView.redraw()
 		master.pinmanagerTableView.reloadData()
 	}
 	
