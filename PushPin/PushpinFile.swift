@@ -67,9 +67,10 @@ class PushpinFile {
 			return (between(tlx, b: brx, x: v.x1) && between(tly, b: bry, x: v.y1)) || (between(tlx, b: brx, x: v.x2) && between(tly, b: bry, x: v.y2))
 		}
 		var l = 0
+		print(tl)
+		print(br)
 		while l < drawnLines.count {
 			if inZone(drawnLines[l], tl, br) {
-				print("delete")
 				drawnLines.removeAtIndex(l)
 			} else {
 				l += 1

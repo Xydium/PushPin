@@ -48,10 +48,12 @@ class DrawingView: UIImageView {
 				switch master.currentDrawTool {
 					case .PEN:
 						master.currentFile.addDrawnLine(start, end!)
+						self.start = end
 						redraw()
 						break
 					case .ERASER:
 						master.currentFile.removeIntersectingLines(end!)
+						self.start = end
 						redraw()
 						break
 					case .SCISSORS:
@@ -60,7 +62,6 @@ class DrawingView: UIImageView {
 						break
 				}
 			}
-			self.start = end
 		}
 	}
 	
