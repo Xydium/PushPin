@@ -37,6 +37,7 @@ class FileManagerController: NSObject, UITableViewDataSource, UITableViewDelegat
 		master.fileManager.pushpinFiles.removeAtIndex(indexPath.row)
 		master.filemanagerTableView.reloadData()
 		master.pinmanagerTableView.reloadData()
+		master.drawingView.redraw()
 	}
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {

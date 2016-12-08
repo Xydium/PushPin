@@ -52,13 +52,6 @@
                                             <action selector="changeDrawTool:" destination="BYZ-38-t0r" id="euB-WD-QHy"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="MuG-4b-8in"/>
-                                    <barButtonItem title="Textbox" id="2xG-B1-RhL">
-                                        <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="changeDrawTool:" destination="BYZ-38-t0r" id="gE8-5q-RH2"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem width="22" style="plain" systemItem="fixedSpace" id="RTG-eT-mTT"/>
                                     <barButtonItem title="Scissors" id="yJw-Cr-t3u">
                                         <color key="tintColor" red="0.55880294779999995" green="0.52106961809999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -200,7 +193,6 @@
                         <outlet property="pinmanagerTableView" destination="qdU-3g-2If" id="ezI-xl-0KN"/>
                         <outletCollection property="drawingTools" destination="GhY-zG-kaq" collectionClass="NSMutableArray" id="XF0-Om-DDH"/>
                         <outletCollection property="drawingTools" destination="5RC-gJ-Npl" collectionClass="NSMutableArray" id="Lbr-9Y-bYA"/>
-                        <outletCollection property="drawingTools" destination="2xG-B1-RhL" collectionClass="NSMutableArray" id="Uz6-4G-zBh"/>
                         <outletCollection property="drawingTools" destination="yJw-Cr-t3u" collectionClass="NSMutableArray" id="28W-EW-W20"/>
                     </connections>
                 </viewController>

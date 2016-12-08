@@ -39,6 +39,7 @@ class PinManagerController: NSObject, UITableViewDataSource, UITableViewDelegate
 			pinManager.pins.removeAtIndex(indexPath.row)
 		}
 		master.pinmanagerTableView.reloadData()
+		master.drawingView.redraw()
 	}
 	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?  {

@@ -40,6 +40,10 @@ struct Vector {
 		return sinh(ycomp / mag)
 	}
 	
+	var norm: Vector {
+		return Vector(0, 0, xcomp / mag, ycomp / mag)
+	}
+	
 	func dot(v: Vector) -> Double {
 		return self.mag * v.mag * cos(self.angle - v.angle)
 	}

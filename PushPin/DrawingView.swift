@@ -19,8 +19,18 @@ class DrawingView: UIImageView {
 	}
 	
 	override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+		if master.currentFile == nil {
+			return
+		}
 		if let touch = touches.first {
 			start = touch.locationInView(self)
+			if master.placingPin {
+				master.currentFile.pinManager.pins.last!.location = start!
+				redraw()
+				master.placingPin = false
+			} else {
+				master.currentFile.sameTouch = true
+			}
 		}
 	}
 	
@@ -31,8 +41,9 @@ class DrawingView: UIImageView {
 		if let touch = touches.first {
 			if master.currentDrawTool == DrawTools.SCISSORS {
 				master.currentFile.removeInZone(start!, touch.locationInView(self))
-				print("ran")
 				redraw()
+			} else {
+				master.currentFile.sameTouch = false
 			}
 		}
 	}
@@ -57,32 +68,42 @@ class DrawingView: UIImageView {
 						redraw()
 						break
 					case .SCISSORS:
-						break
-					case .TEXTBOX:
+						redraw(true)
 						break
 				}
 			}
 		}
 	}
 	
-	func redraw() {
-		if master.currentFile == nil {
-			return
-		}
-		
+	func redraw(selector: Bool = false) {
 		UIGraphicsBeginImageContext(self.frame.size)
 		let context = UIGraphicsGetCurrentContext()
 		
-		CGContextSetLineWidth(context, CGFloat(5))
-		CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
-		
-		for line in master.currentFile.drawnLines {
-			CGContextBeginPath(context)
-			CGContextMoveToPoint(context, CGFloat(line.x1), CGFloat(line.y1))
-			CGContextAddLineToPoint(context, CGFloat(line.x2), CGFloat(line.y2))
-			CGContextStrokePath(context)
+		if master.currentFile != nil {
+			CGContextSetLineWidth(context, CGFloat(5))
+			CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+			
+			for line in master.currentFile.drawnLines {
+				CGContextBeginPath(context)
+				CGContextMoveToPoint(context, CGFloat(line.x1), CGFloat(line.y1))
+				CGContextAddLineToPoint(context, CGFloat(line.x2), CGFloat(line.y2))
+				CGContextStrokePath(context)
+			}
+			
+			for pin in master.currentFile.pinManager.pins {
+				if master.currentFile.pinManager.currentQuery != "" && !pin.isBeingSearchedFor(master.currentFile.pinManager.currentQuery) { continue }
+				CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+				let size = CGSize(width: 10, height: 10)
+				let origin = CGPoint(x: pin.location.x - size.width / 2, y: pin.location.y - size.height / 2)
+				CGContextFillEllipseInRect(context, CGRect(origin: origin, size: size))
+			}
+			
+			if selector {
+				CGContextSetFillColorWithColor(context, UIColor(red:0x8E/0xFF, green:0x85/0xFF, blue:1.0, alpha: 0.25).CGColor)
+				CGContextFillRect(context, CGRect(origin: start!, size: CGSize(width: end!.x - start!.x, height: end!.y - start!.y)))
+			}
 		}
-		
+			
 		let newImage = UIGraphicsGetImageFromCurrentImageContext()
 		UIGraphicsEndImageContext()
 		image = newImage
@@ -91,7 +112,7 @@ class DrawingView: UIImageView {
 }
 
 enum DrawTools : Int {
-	case PEN, ERASER, TEXTBOX, SCISSORS
+	case PEN, ERASER, SCISSORS
 	
 	static func forName(name: String) -> DrawTools {
 		switch name.uppercaseString {
@@ -99,8 +120,6 @@ enum DrawTools : Int {
 			return DrawTools.PEN
 		case "ERASER":
 			return DrawTools.ERASER
-		case "TEXTBOX":
-			return DrawTools.TEXTBOX
 		case "SCISSORS":
 			return DrawTools.SCISSORS
 		default:

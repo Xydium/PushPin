@@ -22,6 +22,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 	var pinManagerController: PinManagerController!
 	var currentFile: PushpinFile!
 	var currentDrawTool = DrawTools.PEN
+	var placingPin = false
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +37,6 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		drawingView.layer.borderColor = defaultTextColor.CGColor
 		drawingView.setMaster(controller: self)
 		changeDrawTool(drawingTools[currentDrawTool.rawValue])
-		runTests()
 	}
 
 	@IBAction func addFile(sender: AnyObject) {
@@ -63,13 +63,14 @@ class ViewController: UIViewController, UISearchBarDelegate {
 			return
 		}
 		var nameTextField, attribsTextField: UITextField?
-		let pinPrompt = UIAlertController(title: "Add Pin", message: "Enter Pin Details", preferredStyle: .Alert)
+		let pinPrompt = UIAlertController(title: "Add Pin", message: "Enter Pin Details, Then Tap to Place", preferredStyle: .Alert)
 		pinPrompt.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action) -> Void in return}))
 		pinPrompt.addAction(UIAlertAction(title: "Add", style: .Default, handler: { (action) -> Void in
 			let nameStr : String = (nameTextField?.text)!
 			let attribsStrs : String = (attribsTextField?.text)!
-			self.currentFile.pinManager.addPin(Pin(name: nameStr, attributes: attribsStrs))
+			self.currentFile.pinManager.addPin(Pin(name: nameStr, attributes: attribsStrs, location: CGPoint(x: -100, y: -100)))
 			self.pinmanagerTableView.reloadData()
+			self.placingPin = true
 		}))
 		pinPrompt.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
 			textField.placeholder = "Name"
@@ -92,21 +93,12 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		if currentFile != nil {
 			currentFile.pinManager.search(searchText)
 			pinmanagerTableView.reloadData()
+			drawingView.redraw()
 		}
 	}
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		return
-	}
-	
-	func runTests() {
-		for i in 0...20 {
-			fileManager.newFile("Test \(i)")
-			for _ in 0...10 {
-				fileManager.pushpinFiles[i].pinManager.addPin(Pin(name: String(random()), attributes: String(random())))
-			}
-		}
-		filemanagerTableView.reloadData()
 	}
 	
 	let defaultTextColor = UIColor(red:0x8E/0xFF, green:0x85/0xFF, blue:1.0, alpha: 1.0)
@@ -117,6 +109,15 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		}
 		sender.tintColor = selectedTextColor
 		currentDrawTool = DrawTools.forName(sender.title!)
+	}
+	
+	func loadFiles() {
+		let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+		
+		let files = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(documentsDirectory) as [String]
+		for filename in files {
+			print(filename)
+		}
 	}
 	
 }
