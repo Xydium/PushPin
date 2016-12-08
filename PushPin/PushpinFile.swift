@@ -28,7 +28,6 @@ class PushpinFile {
 		if let last = drawnLines.last {
 			if sameTouch {
 				let endToNext = Vector(last.x2, last.y2, Double(end.x), Double(end.y))
-				print(last.norm.dot(endToNext.norm))
 				if last.norm.dot(endToNext.norm) > 0.99 {
 					drawnLines.removeLast()
 					drawnLines.append(Vector(last.x1, last.y1, Double(end.x), Double(end.y)))
