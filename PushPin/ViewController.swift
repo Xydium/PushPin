@@ -140,7 +140,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		do {
 			let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
 			let path = docsurl.URLByAppendingPathComponent(ppfile.fileName + ".pushpin")
-			try! fm.removeItemAtURL(path)
+			try fm.removeItemAtURL(path)
 		} catch {}
 	}
 	
