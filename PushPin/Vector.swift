@@ -9,7 +9,8 @@
 import UIKit
 import Foundation
 
-struct Vector {
+@objc
+class Vector : NSObject, NSCoding {
 	
 	let x1, y1, x2, y2: Double
 	
@@ -20,7 +21,7 @@ struct Vector {
 		self.y2 = y2
 	}
 	
-	init(_ s: CGPoint, _ e: CGPoint) {
+	convenience init(_ s: CGPoint, _ e: CGPoint) {
 		self.init(Double(s.x), Double(s.y), Double(e.x), Double(e.y))
 	}
 	
@@ -46,6 +47,20 @@ struct Vector {
 	
 	func dot(v: Vector) -> Double {
 		return self.mag * v.mag * cos(self.angle - v.angle)
+	}
+	
+	func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encodeDouble(Double(self.x1), forKey: "x1")
+		aCoder.encodeDouble(Double(self.y1), forKey: "y1")
+		aCoder.encodeDouble(Double(self.x2), forKey: "x2")
+		aCoder.encodeDouble(Double(self.y2), forKey: "y2")
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		self.x1 = aDecoder.decodeDoubleForKey("x1")
+		self.y1 = aDecoder.decodeDoubleForKey("y1")
+		self.x2 = aDecoder.decodeDoubleForKey("x2")
+		self.y2 = aDecoder.decodeDoubleForKey("y2")
 	}
 	
 }

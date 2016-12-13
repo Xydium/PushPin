@@ -136,6 +136,7 @@
 				TargetAttributes = {
 					EB902F9F1DBFD34A00104D36 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = AT8576S7WN;
 					};
 				};
 			};
@@ -299,10 +300,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: timhornick312@gmail.com (9ZV6Q94HUR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PushPin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xydium.PushPin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6d630a81-f7a4-483b-9c8d-cbbf9875c274";
 			};
 			name = Debug;
 		};
@@ -310,10 +314,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: timhornick312@gmail.com (9ZV6Q94HUR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = PushPin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xydium.PushPin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6d630a81-f7a4-483b-9c8d-cbbf9875c274";
 			};
 			name = Release;
 		};

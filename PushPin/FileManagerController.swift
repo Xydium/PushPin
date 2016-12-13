@@ -14,6 +14,7 @@ class FileManagerController: NSObject, UITableViewDataSource, UITableViewDelegat
 	init(_ master: ViewController) { self.master = master }
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		master.saveCurrentFile()
 		master.currentFile = master.fileManager.pushpinFiles[indexPath.row]
 		master.drawingView.redraw()
 		master.pinmanagerTableView.reloadData()
@@ -33,6 +34,7 @@ class FileManagerController: NSObject, UITableViewDataSource, UITableViewDelegat
 	}
 	
 	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+		master.deleteFile(master.currentFile)
 		master.currentFile = nil
 		master.fileManager.pushpinFiles.removeAtIndex(indexPath.row)
 		master.filemanagerTableView.reloadData()

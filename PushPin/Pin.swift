@@ -7,8 +7,10 @@
 //
 
 import CoreGraphics
+import Foundation
 
-class Pin {
+@objc
+class Pin : NSObject, NSCoding {
     
     let name: String
     let attributes: String
@@ -22,6 +24,19 @@ class Pin {
 	
 	func isBeingSearchedFor(query: String) -> Bool {
 		return name.lowercaseString.rangeOfString(query.lowercaseString) != nil || attributes.lowercaseString.rangeOfString(query.lowercaseString) != nil
+	}
+	
+	func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encodeObject(name, forKey: "name")
+		aCoder.encodeObject(attributes, forKey: "attributes")
+		aCoder.encodeObject(location.x, forKey: "locationx")
+		aCoder.encodeObject(location.y, forKey: "locationy")
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		self.name = aDecoder.decodeObjectForKey("name") as! String
+		self.attributes = aDecoder.decodeObjectForKey("attributes") as! String
+		self.location = CGPoint(x: aDecoder.decodeObjectForKey("locationx") as! CGFloat, y: aDecoder.decodeObjectForKey("locationy") as! CGFloat)
 	}
 	
 }

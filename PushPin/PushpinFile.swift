@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-class PushpinFile {
+@objc
+class PushpinFile: NSObject, NSCoding {
 
 	let fileName: String
 	let lastModified: NSDate
@@ -83,6 +84,30 @@ class PushpinFile {
 			} else {
 				l += 1
 			}
+		}
+	}
+	
+	func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encodeObject(self.fileName, forKey: "fileName")
+		aCoder.encodeObject(self.lastModified, forKey: "lastModified")
+		aCoder.encodeObject(self.pinManager, forKey: "pinManager")
+		aCoder.encodeInt(Int32(self.drawnLines.count), forKey: "numDrawnLines")
+		var i = 0
+		for line in drawnLines {
+			aCoder.encodeObject(line, forKey: "line" + String(i))
+			i += 1
+		}
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		self.fileName = aDecoder.decodeObjectForKey("fileName") as! String
+		self.lastModified = aDecoder.decodeObjectForKey("lastModified") as! NSDate
+		self.pinManager = aDecoder.decodeObjectForKey("pinManager") as! PinManager
+		self.drawnLines = [Vector]()
+		var i = 0
+		while i < Int(aDecoder.decodeIntForKey("numDrawnLines")) {
+			drawnLines.append(aDecoder.decodeObjectForKey("line" + String(i)) as! Vector)
+			i += 1
 		}
 	}
 	

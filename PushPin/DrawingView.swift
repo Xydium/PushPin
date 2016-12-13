@@ -90,9 +90,16 @@ class DrawingView: UIImageView {
 				CGContextStrokePath(context)
 			}
 			
+			let selectedPin: Int? = master.pinmanagerTableView.indexPathForSelectedRow?.row
+			
 			for pin in master.currentFile.pinManager.pins {
 				if master.currentFile.pinManager.currentQuery != "" && !pin.isBeingSearchedFor(master.currentFile.pinManager.currentQuery) { continue }
-				CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+				
+				if selectedPin != nil && master.currentFile.pinManager.findPinIndex(pin) == selectedPin || (master.currentFile.pinManager.currentQuery != "" && master.currentFile.pinManager.findFilteredPinIndex(pin) == selectedPin) {
+					CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+				} else {
+					CGContextSetFillColorWithColor(context, UIColor.blueColor().CGColor)
+				}
 				let size = CGSize(width: 10, height: 10)
 				let origin = CGPoint(x: pin.location.x - size.width / 2, y: pin.location.y - size.height / 2)
 				CGContextFillEllipseInRect(context, CGRect(origin: origin, size: size))

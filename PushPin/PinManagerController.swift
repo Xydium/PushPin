@@ -42,6 +42,14 @@ class PinManagerController: NSObject, UITableViewDataSource, UITableViewDelegate
 		master.drawingView.redraw()
 	}
 	
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		master.drawingView.redraw()
+	}
+	
+	func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+		master.drawingView.redraw()
+	}
+	
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?  {
 		let delete = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in self.tableView(tableView, commitEditingStyle: .Delete, forRowAtIndexPath: indexPath)})
 		delete.backgroundColor = UIColor(red: 0x8E / 0xFF, green: 0x85 / 0xFF, blue: 1, alpha: 1)

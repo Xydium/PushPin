@@ -26,12 +26,15 @@ class ViewController: UIViewController, UISearchBarDelegate {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
+		loadFiles()
 		fileManagerController = FileManagerController(self)
 		pinManagerController = PinManagerController(self)
 		pinmanagerTableView.dataSource = pinManagerController
 		pinmanagerTableView.delegate = pinManagerController
 		filemanagerTableView.dataSource = fileManagerController
 		filemanagerTableView.delegate = fileManagerController
+		filemanagerTableView.reloadData()
+		pinmanagerTableView.reloadData()
 		pinmanagerSearchBar.delegate = self
 		drawingView.layer.borderWidth = 1
 		drawingView.layer.borderColor = defaultTextColor.CGColor
@@ -39,6 +42,10 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		changeDrawTool(drawingTools[currentDrawTool.rawValue])
 	}
 
+	override func viewWillDisappear(animated: Bool) {
+		saveCurrentFile()
+	}
+	
 	@IBAction func addFile(sender: AnyObject) {
 		var inputTextField: UITextField?
 		let filenamePrompt = UIAlertController(title: "Add File", message: "Enter File Name", preferredStyle: .Alert)
@@ -116,8 +123,36 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		
 		let files = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(documentsDirectory) as [String]
 		for filename in files {
-			print(filename)
+			let fm = NSFileManager.defaultManager()
+			do{
+				let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
+				let fileFile = docsurl.URLByAppendingPathComponent(filename)
+				let fileData = NSData(contentsOfURL: fileFile)
+				let file = NSKeyedUnarchiver.unarchiveObjectWithData(fileData!) as! PushpinFile
+				fileManager.pushpinFiles.append(file)
+			}
+			catch{}
 		}
+	}
+	
+	func deleteFile(ppfile: PushpinFile) {
+		let fm = NSFileManager.defaultManager()
+		do {
+			let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
+			let path = docsurl.URLByAppendingPathComponent(ppfile.fileName + ".pushpin")
+			try! fm.removeItemAtURL(path)
+		} catch {}
+	}
+	
+	func saveCurrentFile() {
+		if currentFile == nil {return}
+		let fm = NSFileManager.defaultManager()
+		do {
+			let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
+			let studentData = NSKeyedArchiver.archivedDataWithRootObject(currentFile)
+			let studentFile = docsurl.URLByAppendingPathComponent(currentFile.fileName + ".pushpin")
+			try! studentData.writeToURL(studentFile, options: .AtomicWrite)
+		} catch {}
 	}
 	
 }
