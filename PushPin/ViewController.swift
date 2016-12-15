@@ -41,10 +41,6 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		drawingView.setMaster(controller: self)
 		changeDrawTool(drawingTools[currentDrawTool.rawValue])
 	}
-
-	override func viewWillDisappear(animated: Bool) {
-		saveCurrentFile()
-	}
 	
 	@IBAction func addFile(sender: AnyObject) {
 		var inputTextField: UITextField?
@@ -131,7 +127,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 				let file = NSKeyedUnarchiver.unarchiveObjectWithData(fileData!) as! PushpinFile
 				fileManager.pushpinFiles.append(file)
 			}
-			catch{}
+			catch{ print("Load threw an error") }
 		}
 	}
 	
@@ -141,7 +137,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 			let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
 			let path = docsurl.URLByAppendingPathComponent(ppfile.fileName + ".pushpin")
 			try fm.removeItemAtURL(path)
-		} catch {}
+		} catch { print("Delete threw an error") }
 	}
 	
 	func saveCurrentFile() {
@@ -152,7 +148,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 			let studentData = NSKeyedArchiver.archivedDataWithRootObject(currentFile)
 			let studentFile = docsurl.URLByAppendingPathComponent(currentFile.fileName + ".pushpin")
 			try! studentData.writeToURL(studentFile, options: .AtomicWrite)
-		} catch {}
+		} catch { print("Save threw an error") }
 	}
 	
 }

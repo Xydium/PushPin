@@ -29,9 +29,15 @@ class PushpinFile: NSObject, NSCoding {
 		if let last = drawnLines.last {
 			if sameTouch {
 				let endToNext = Vector(last.x2, last.y2, Double(end.x), Double(end.y))
-				if last.norm.dot(endToNext.norm) > 0.99 {
+				if last.norm.dot(endToNext.norm) > 0.96 {
 					drawnLines.removeLast()
-					drawnLines.append(Vector(last.x1, last.y1, Double(end.x), Double(end.y)))
+					let extend = last.norm
+					let newVector = Vector(last.x1, last.y1, last.x2 + extend.xcomp * endToNext.mag, last.y2 + extend.ycomp * endToNext.mag)
+					drawnLines.append(newVector)
+					return
+				} else {
+					drawnLines.append(endToNext)
+					sameTouch = false
 					return
 				}
 			}

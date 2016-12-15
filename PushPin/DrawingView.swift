@@ -28,8 +28,6 @@ class DrawingView: UIImageView {
 				master.currentFile.pinManager.pins.last!.location = start!
 				redraw()
 				master.placingPin = false
-			} else {
-				master.currentFile.sameTouch = true
 			}
 		}
 	}
@@ -42,10 +40,9 @@ class DrawingView: UIImageView {
 			if master.currentDrawTool == DrawTools.SCISSORS {
 				master.currentFile.removeInZone(start!, touch.locationInView(self))
 				redraw()
-			} else {
-				master.currentFile.sameTouch = false
 			}
 		}
+		master.currentFile.sameTouch = false
 	}
 	
 	override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -54,10 +51,10 @@ class DrawingView: UIImageView {
 		}
 		if let touch = touches.first {
 			end = touch.locationInView(self)
-			if Vector(start!, end!).mag < 10 {return}
 			if let start = self.start {
 				switch master.currentDrawTool {
 					case .PEN:
+						if Vector(start, end!).mag < 10 { return }
 						master.currentFile.addDrawnLine(start, end!)
 						self.start = end
 						redraw()
@@ -72,6 +69,7 @@ class DrawingView: UIImageView {
 						break
 				}
 			}
+			master.currentFile.sameTouch = true
 		}
 	}
 	

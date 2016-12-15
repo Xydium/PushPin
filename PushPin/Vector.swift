@@ -46,7 +46,7 @@ class Vector : NSObject, NSCoding {
 	}
 	
 	func dot(v: Vector) -> Double {
-		return self.mag * v.mag * cos(self.angle - v.angle)
+		return xcomp * v.xcomp + ycomp * v.ycomp
 	}
 	
 	func encodeWithCoder(aCoder: NSCoder) {
