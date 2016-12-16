@@ -13,7 +13,7 @@ import UIKit
 class PushpinFile: NSObject, NSCoding {
 
 	let fileName: String
-	let lastModified: NSDate
+	var lastModified: NSDate
 	let pinManager: PinManager
 	var drawnLines: [Vector]
 	var sameTouch = false
@@ -29,7 +29,7 @@ class PushpinFile: NSObject, NSCoding {
 		if let last = drawnLines.last {
 			if sameTouch {
 				let endToNext = Vector(last.x2, last.y2, Double(end.x), Double(end.y))
-				if last.norm.dot(endToNext.norm) > 0.96 {
+				if last.norm.dot(endToNext.norm) > 0.97 {
 					drawnLines.removeLast()
 					let extend = last.norm
 					let newVector = Vector(last.x1, last.y1, last.x2 + extend.xcomp * endToNext.mag, last.y2 + extend.ycomp * endToNext.mag)

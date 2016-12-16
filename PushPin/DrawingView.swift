@@ -89,6 +89,13 @@ class DrawingView: UIImageView {
 			}
 			
 			let selectedPin: Int? = master.pinmanagerTableView.indexPathForSelectedRow?.row
+			let textColor = UIColor.darkGrayColor()
+			let textFont = UIFont(name: "Helvetica Bold", size: 20)!
+			
+			let textFontAttributes = [
+				NSFontAttributeName: textFont,
+				NSForegroundColorAttributeName: textColor,
+			]
 			
 			for pin in master.currentFile.pinManager.pins {
 				if master.currentFile.pinManager.currentQuery != "" && !pin.isBeingSearchedFor(master.currentFile.pinManager.currentQuery) { continue }
@@ -101,6 +108,9 @@ class DrawingView: UIImageView {
 				let size = CGSize(width: 10, height: 10)
 				let origin = CGPoint(x: pin.location.x - size.width / 2, y: pin.location.y - size.height / 2)
 				CGContextFillEllipseInRect(context, CGRect(origin: origin, size: size))
+				
+				let rect = CGRectMake(pin.location.x + 10, pin.location.y - 11, self.frame.size.width, self.frame.size.height)
+				(pin.name as NSString).drawInRect(rect, withAttributes: textFontAttributes)
 			}
 			
 			if selector {
