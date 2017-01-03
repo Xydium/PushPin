@@ -54,7 +54,7 @@ class DrawingView: UIImageView {
 			if let start = self.start {
 				switch master.currentDrawTool {
 					case .PEN:
-						if Vector(start, end!).mag < 10 { return }
+						if Vector(start, end!).mag < 5 { return }
 						master.currentFile.addDrawnLine(start, end!)
 						self.start = end
 						redraw()
@@ -86,6 +86,8 @@ class DrawingView: UIImageView {
 				CGContextMoveToPoint(context, CGFloat(line.x1), CGFloat(line.y1))
 				CGContextAddLineToPoint(context, CGFloat(line.x2), CGFloat(line.y2))
 				CGContextStrokePath(context)
+				CGContextFillEllipseInRect(context, CGRect(origin: CGPoint(x: line.x1 - 2, y: line.y1 - 2), size: CGSize(width: 4, height: 4)))
+				CGContextFillEllipseInRect(context, CGRect(origin: CGPoint(x: line.x2 - 2, y: line.y2 - 2), size: CGSize(width: 4, height: 4)))
 			}
 			
 			let selectedPin: Int? = master.pinmanagerTableView.indexPathForSelectedRow?.row

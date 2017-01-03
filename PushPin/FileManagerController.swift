@@ -17,6 +17,7 @@ class FileManagerController: NSObject, UITableViewDataSource, UITableViewDelegat
 		master.saveCurrentFile()
 		master.currentFile = master.fileManager.pushpinFiles[indexPath.row]
 		master.currentFile.lastModified = NSDate()
+		
 		master.drawingView.redraw()
 		master.pinmanagerTableView.reloadData()
 	}
