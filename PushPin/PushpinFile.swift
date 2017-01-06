@@ -17,6 +17,7 @@ class PushpinFile: NSObject, NSCoding {
 	let pinManager: PinManager
 	var drawnLines: [Vector]
 	var sameTouch = false
+	var hasBeenDeleted = false
 	
 	init(fileName: String, lastModified: NSDate) {
 		self.fileName = fileName
@@ -98,6 +99,7 @@ class PushpinFile: NSObject, NSCoding {
 		aCoder.encodeObject(self.lastModified, forKey: "lastModified")
 		aCoder.encodeObject(self.pinManager, forKey: "pinManager")
 		aCoder.encodeInt(Int32(self.drawnLines.count), forKey: "numDrawnLines")
+		aCoder.encodeBool(hasBeenDeleted, forKey: "hasBeenDeleted")
 		var i = 0
 		for line in drawnLines {
 			aCoder.encodeObject(line, forKey: "line" + String(i))
@@ -106,14 +108,22 @@ class PushpinFile: NSObject, NSCoding {
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
-		self.fileName = aDecoder.decodeObjectForKey("fileName") as! String
-		self.lastModified = aDecoder.decodeObjectForKey("lastModified") as! NSDate
-		self.pinManager = aDecoder.decodeObjectForKey("pinManager") as! PinManager
-		self.drawnLines = [Vector]()
-		var i = 0
-		while i < Int(aDecoder.decodeIntForKey("numDrawnLines")) {
-			drawnLines.append(aDecoder.decodeObjectForKey("line" + String(i)) as! Vector)
-			i += 1
+		self.hasBeenDeleted = aDecoder.decodeBoolForKey("hasBeenDeleted")
+		if hasBeenDeleted {
+			self.fileName = ""
+			self.lastModified = NSDate()
+			self.pinManager = PinManager()
+			self.drawnLines = [Vector]()
+		} else {
+			self.fileName = aDecoder.decodeObjectForKey("fileName") as! String
+			self.lastModified = aDecoder.decodeObjectForKey("lastModified") as! NSDate
+			self.pinManager = aDecoder.decodeObjectForKey("pinManager") as! PinManager
+			self.drawnLines = [Vector]()
+			var i = 0
+			while i < Int(aDecoder.decodeIntForKey("numDrawnLines")) {
+				drawnLines.append(aDecoder.decodeObjectForKey("line" + String(i)) as! Vector)
+				i += 1
+			}
 		}
 	}
 	

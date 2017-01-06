@@ -125,13 +125,18 @@ class ViewController: UIViewController, UISearchBarDelegate {
 				let fileFile = docsurl.URLByAppendingPathComponent(filename)
 				let fileData = NSData(contentsOfURL: fileFile)
 				let file = NSKeyedUnarchiver.unarchiveObjectWithData(fileData!) as! PushpinFile
-				fileManager.pushpinFiles.append(file)
+				if file.hasBeenDeleted {
+					deleteFile(file)
+				} else {
+					fileManager.pushpinFiles.append(file)
+				}
 			}
 			catch{ print("Load threw an error") }
 		}
 	}
 	
 	func deleteFile(ppfile: PushpinFile) {
+		ppfile.hasBeenDeleted = true
 		let fm = NSFileManager.defaultManager()
 		do {
 			let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
@@ -141,7 +146,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 	}
 	
 	func saveCurrentFile() {
-		if currentFile == nil {return}
+		if currentFile == nil || currentFile.hasBeenDeleted {return}
 		let fm = NSFileManager.defaultManager()
 		do {
 			let docsurl = try fm.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create:false)
