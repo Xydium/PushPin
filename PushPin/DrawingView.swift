@@ -55,7 +55,7 @@ class DrawingView: UIImageView {
 				switch master.currentDrawTool {
 					case .PEN:
 						if Vector(start, end!).mag < 5 { return }
-						master.currentFile.addDrawnLine(start, end!)
+						master.currentFile.addDrawnLine(start, end!, master.straightLines)
 						self.start = end
 						redraw()
 						break
@@ -92,7 +92,7 @@ class DrawingView: UIImageView {
 			
 			let selectedPin: Int? = master.pinmanagerTableView.indexPathForSelectedRow?.row
 			let textColor = UIColor.darkGrayColor()
-			let textFont = UIFont(name: "Helvetica Bold", size: 20)!
+			let textFont = UIFont(name: "Helvetica Bold", size: 14)!
 			
 			let textFontAttributes = [
 				NSFontAttributeName: textFont,
@@ -111,7 +111,7 @@ class DrawingView: UIImageView {
 				let origin = CGPoint(x: pin.location.x - size.width / 2, y: pin.location.y - size.height / 2)
 				CGContextFillEllipseInRect(context, CGRect(origin: origin, size: size))
 				
-				let rect = CGRectMake(pin.location.x + 10, pin.location.y - 11, self.frame.size.width, self.frame.size.height)
+				let rect = CGRectMake(pin.location.x + 10, pin.location.y - 8, self.frame.size.width, self.frame.size.height)
 				(pin.name as NSString).drawInRect(rect, withAttributes: textFontAttributes)
 			}
 			
