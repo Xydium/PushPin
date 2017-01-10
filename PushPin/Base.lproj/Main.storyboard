@@ -201,7 +201,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="5lw-YO-UOH" userLabel="Add Pin Gesture"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="5lw-YO-UOH" userLabel="Add Pin Gesture">
+                    <connections>
+                        <action selector="addPinGesture:" destination="BYZ-38-t0r" id="tQe-DW-F2T"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="304" y="433"/>
         </scene>

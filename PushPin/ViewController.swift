@@ -23,6 +23,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 	var currentFile: PushpinFile!
 	var currentDrawTool = DrawTools.PEN
 	var placingPin = false
+	var gesturePoint: CGPoint?
 	var straightLines = true
 	
 	override func viewDidLoad() {
@@ -72,9 +73,14 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		pinPrompt.addAction(UIAlertAction(title: "Add", style: .Default, handler: { (action) -> Void in
 			let nameStr : String = (nameTextField?.text)!
 			let attribsStrs : String = (attribsTextField?.text)!
-			self.currentFile.pinManager.addPin(Pin(name: nameStr, attributes: attribsStrs, location: CGPoint(x: -100, y: -100)))
+			if let point = self.gesturePoint {
+				self.currentFile.pinManager.addPin(Pin(name: nameStr, attributes: attribsStrs, location: point))
+				self.drawingView.redraw()
+			} else {
+				self.currentFile.pinManager.addPin(Pin(name: nameStr, attributes: attribsStrs, location: CGPoint(x: -100, y: -100)))
+				self.placingPin = true
+			}
 			self.pinmanagerTableView.reloadData()
-			self.placingPin = true
 		}))
 		pinPrompt.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
 			textField.placeholder = "Name"
@@ -163,6 +169,12 @@ class ViewController: UIViewController, UISearchBarDelegate {
 			let studentFile = docsurl.URLByAppendingPathComponent(currentFile.fileName + ".pushpin")
 			try! studentData.writeToURL(studentFile, options: .AtomicWrite)
 		} catch { print("Save threw an error") }
+	}
+	
+	@IBAction func addPinGesture(sender: UILongPressGestureRecognizer) {
+		if sender.state != .Began {return}
+		gesturePoint = sender.locationInView(drawingView)
+		addPin(sender)
 	}
 	
 }
