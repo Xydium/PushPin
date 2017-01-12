@@ -35,6 +35,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		pinmanagerTableView.delegate = pinManagerController
 		filemanagerTableView.dataSource = fileManagerController
 		filemanagerTableView.delegate = fileManagerController
+		generatePerformanceTest()
 		filemanagerTableView.reloadData()
 		pinmanagerTableView.reloadData()
 		pinmanagerSearchBar.delegate = self
@@ -175,6 +176,14 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		if sender.state != .Began {return}
 		gesturePoint = sender.locationInView(drawingView)
 		addPin(sender)
+	}
+	
+	func generatePerformanceTest() {
+		fileManager.newFile("Performance")
+		
+		for _ in 0...20000 {
+			fileManager.pushpinFiles.last!.drawnLines.append(Vector(Double(rand() % 768), Double(rand() % 768), Double(rand() % 768), Double(rand() % 768)))
+		}
 	}
 	
 }

@@ -62,7 +62,9 @@ class PushpinFile: NSObject, NSCoding {
 			let qX = Double(erasePoint.x), qY = Double(erasePoint.y)
 			
 			//Endpoint check
-			if Vector(qX, qY, line.x1, line.y1).mag < 25 || Vector(qX, qY, line.x2, line.y2).mag < 25 { return true }
+			if Vector(qX, qY, line.x1, line.y1).mag < 25 || Vector(qX, qY, line.x2, line.y2).mag < 25 {
+				return true
+			}
 			
 			//Supersample the vector in diameter-sized intervals
 			let lerpInc = 50 / line.mag
