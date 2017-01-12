@@ -40,6 +40,8 @@ class DrawingView: UIImageView {
 			if master.currentDrawTool == DrawTools.SCISSORS {
 				master.currentFile.removeInZone(start!, touch.locationInView(self))
 				redraw()
+			} else if master.currentDrawTool == DrawTools.ERASER {
+				redraw()
 			}
 		}
 		master.currentFile.sameTouch = false
@@ -62,7 +64,7 @@ class DrawingView: UIImageView {
 					case .ERASER:
 						master.currentFile.removeIntersectingLines(end!)
 						self.start = end
-						redraw()
+						redraw(eraser: true)
 						break
 					case .SCISSORS:
 						redraw(true)
@@ -73,7 +75,7 @@ class DrawingView: UIImageView {
 		}
 	}
 	
-	func redraw(selector: Bool = false) {
+	func redraw(selector: Bool = false, eraser: Bool = false) {
 		UIGraphicsBeginImageContext(self.frame.size)
 		let context = UIGraphicsGetCurrentContext()
 		
@@ -118,6 +120,11 @@ class DrawingView: UIImageView {
 			if selector {
 				CGContextSetFillColorWithColor(context, UIColor(red:0x8E/0xFF, green:0x85/0xFF, blue:1.0, alpha: 0.25).CGColor)
 				CGContextFillRect(context, CGRect(origin: start!, size: CGSize(width: end!.x - start!.x, height: end!.y - start!.y)))
+			}
+			
+			if eraser {
+				CGContextSetFillColorWithColor(context, UIColor(red:0x8E/0xFF, green:0x85/0xFF, blue:1.0, alpha: 0.25).CGColor)
+				CGContextFillEllipseInRect(context, CGRect(origin: CGPoint(x: end!.x - 25, y: end!.y - 25), size: CGSize(width: 50, height: 50)))
 			}
 		}
 			

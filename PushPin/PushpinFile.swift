@@ -56,23 +56,33 @@ class PushpinFile: NSObject, NSCoding {
 	func removeIntersectingLines(erasePoint: CGPoint) {
 		if drawnLines.isEmpty {return}
 		var l = 0
+		
+		//The guy she tells you not to worry about
 		func intersecting(line: Vector, _ erasePoint: CGPoint) -> Bool {
 			let qX = Double(erasePoint.x), qY = Double(erasePoint.y)
-			let pX = line.x1 + (line.x2 * ((qX - line.x1) * (line.x2 - line.x1) / line.mag))
-			let pY = line.y1 + (line.y2 * ((qY - line.y1) * (line.y2 - line.y1) / line.mag))
-			let altitude = Vector(qX, qY, pX, pY)
-			let qA = Vector(qX, qY, line.x2, line.y2)
-			let qB = Vector(qX, qY, line.x1, line.y1)
 			
-			if (altitude.mag > qA.mag) {
-				return qA.mag < 25
-			}
-			else if (altitude.mag > qB.mag) {
-				return qB.mag < 25
-			}
+			//Endpoint check
+			if Vector(qX, qY, line.x1, line.y1).mag < 25 || Vector(qX, qY, line.x2, line.y2).mag < 25 { return true }
 			
-			return altitude.mag < 25
+			//Supersample the vector in diameter-sized intervals
+			let lerpInc = 50 / line.mag
+			var amt = lerpInc
+			//This will run until all super-samples have been completed
+			//Never runs on a vector with mag less than 50 px, because if intersection
+			//were reasonably possible then the endpoint check would have caught it
+			while amt < 1.0 {
+				//Get the point for this fraction of the vector
+				let p = line.lerped(amt)
+				//Check the circle inequality formula
+				if pow((p.0 - qX), 2) + pow((p.1 - qY), 2) < pow(25, 2) {
+					return true
+				}
+				//move to the next
+				amt += lerpInc
+			}
+			return false
 		}
+		
 		while l < drawnLines.count {
 			if intersecting(drawnLines[l], erasePoint) {
 				drawnLines.removeAtIndex(l)

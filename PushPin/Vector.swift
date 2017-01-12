@@ -49,6 +49,10 @@ class Vector : NSObject, NSCoding {
 		return xcomp * v.xcomp + ycomp * v.ycomp
 	}
 	
+	func lerped(amt: Double) -> (Double, Double) {
+		return (x1 + (x2 - x1) * amt, y1 + (y2 - y1) * amt)
+	}
+	
 	func encodeWithCoder(aCoder: NSCoder) {
 		aCoder.encodeDouble(Double(self.x1), forKey: "x1")
 		aCoder.encodeDouble(Double(self.y1), forKey: "y1")
