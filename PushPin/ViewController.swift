@@ -35,7 +35,6 @@ class ViewController: UIViewController, UISearchBarDelegate {
 		pinmanagerTableView.delegate = pinManagerController
 		filemanagerTableView.dataSource = fileManagerController
 		filemanagerTableView.delegate = fileManagerController
-		generatePerformanceTest()
 		filemanagerTableView.reloadData()
 		pinmanagerTableView.reloadData()
 		pinmanagerSearchBar.delegate = self
@@ -114,20 +113,20 @@ class ViewController: UIViewController, UISearchBarDelegate {
 	
 	let defaultTextColor = UIColor(red:0x8E/0xFF, green:0x85/0xFF, blue:1.0, alpha: 1.0)
 	let selectedTextColor = UIColor(red:0x4E/0xFF, green:0xA0/0xFF, blue:0.95, alpha: 1.0)
-	let selectedTextColorOther = UIColor(red:0x8E/0xFF, green:0xFF/0xFF, blue:0.95, alpha: 1.0)
 	@IBAction func changeDrawTool(sender: UIBarButtonItem) {
 		for b in drawingTools {
 			b.tintColor = defaultTextColor
 		}
 		
-		if sender.title! == "Pen" && currentDrawTool == DrawTools.PEN {
+		if (sender.title! == "Pen" || sender.title! == "Line") && currentDrawTool == DrawTools.PEN {
 			straightLines = !straightLines
-			sender.tintColor = straightLines ? selectedTextColorOther : selectedTextColor
+			if straightLines {sender.title = "Line"} else {sender.title = "Pen"}
 		} else {
-			sender.tintColor = selectedTextColor
 			currentDrawTool = DrawTools.forName(sender.title!)
 			straightLines = false
+			drawingTools[0].title = "Pen"
 		}
+		sender.tintColor = selectedTextColor
 	}
 	
 	func loadFiles() {
